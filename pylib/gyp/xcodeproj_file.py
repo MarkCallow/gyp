@@ -1951,17 +1951,20 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
   # path_tree_to_subfolder maps names of Xcode variables to the associated
   # dstSubfolderSpec property value used in a PBXCopyFilesBuildPhase object.
   path_tree_to_subfolder = {
-    'BUILT_PRODUCTS_DIR': 16,  # Products Directory
-    # Other types that can be chosen via the Xcode UI.
-    # TODO(mark): Map Xcode variable names to these.
-    # : 1,  # Wrapper
-    # : 6,  # Executables: 6
-    # : 7,  # Resources
-    # : 15,  # Java Resources
-    # : 10,  # Frameworks
-    # : 11,  # Shared Frameworks
-    # : 12,  # Shared Support
-    # : 13,  # PlugIns
+    # Types that can be chosen via the Xcode UI.
+    'BUILT_PRODUCTS_DIR':               16,  # Products Directory
+    'WRAPPER_NAME':                      1,  # Wrapper
+    'EXECUTABLES_FOLDER_PATH':           6,  # Executables
+    'UNLOCALIZED_RESOURCES_FOLDER_PATH': 7,  # Resources
+    'JAVA_FOLDER_PATH':                 15,  # Java Resources
+    'FRAMEWORKS_FOLDER_PATH':           10,  # Frameworks
+    'SHARED_FRAMEWORKS_FOLDER_PATH':    11,  # Shared Frameworks
+    'SHARED_SUPPORT_FOLDER_PATH':       12,  # Shared Support
+    'PLUGINS_FOLDER_PATH':              13,  # PlugIns
+    # For XPC Services use destination: $(BUILT_PRODUCTS_FOLDER)/$(CONTENTS_FOLDER_PATH)/XPCServices"
+    # in the copies list. That will result in setting dstPath = $(CONTENTS_FOLDER_PATH)/XPCServices"
+    # and dstSubfolderSpec = 16, exactly how Xcode 5 sets up these file copies.
+    #'BUILT_PRODUCTS_FOLDER':           16,  # XPC Services
   }
 
   def Name(self):
