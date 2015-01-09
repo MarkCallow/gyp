@@ -1946,7 +1946,7 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
 
   # path_tree_re matches "$(DIR)/path" or just "$(DIR)".  Match group 1 is
   # "DIR", match group 3 is "path" or None.
-  path_tree_re = re.compile('^\\$\\((.*)\\)(/(.*)|)$')
+  path_tree_re = re.compile('^\\$\\((.*?)\\)(/(.*)|)$')
 
   # path_tree_to_subfolder maps names of Xcode variables to the associated
   # dstSubfolderSpec property value used in a PBXCopyFilesBuildPhase object.
@@ -1954,17 +1954,20 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
     # Types that can be chosen via the Xcode UI.
     'BUILT_PRODUCTS_DIR':               16,  # Products Directory
     'WRAPPER_NAME':                      1,  # Wrapper
-    'EXECUTABLES_FOLDER_PATH':           6,  # Executables
+    # Although Xcode's friendly name is "Executables", the destination
+    # is demonstrably the value of the build setting
+    # EXECUTABLE_FOLDER_PATH not EXECUTABLES_FOLDER_PATH.
+    'EXECUTABLE_FOLDER_PATH':            6,  # Executables.
     'UNLOCALIZED_RESOURCES_FOLDER_PATH': 7,  # Resources
     'JAVA_FOLDER_PATH':                 15,  # Java Resources
     'FRAMEWORKS_FOLDER_PATH':           10,  # Frameworks
     'SHARED_FRAMEWORKS_FOLDER_PATH':    11,  # Shared Frameworks
     'SHARED_SUPPORT_FOLDER_PATH':       12,  # Shared Support
     'PLUGINS_FOLDER_PATH':              13,  # PlugIns
-    # For XPC Services use destination: $(BUILT_PRODUCTS_FOLDER)/$(CONTENTS_FOLDER_PATH)/XPCServices"
-    # in the copies list. That will result in setting dstPath = $(CONTENTS_FOLDER_PATH)/XPCServices"
-    # and dstSubfolderSpec = 16, exactly how Xcode 5 sets up these file copies.
-    #'BUILT_PRODUCTS_FOLDER':           16,  # XPC Services
+    # For XPC Services, Xcode sets both dstPath and dstSubfolderSpec.
+    # Note that it re-uses the BUILT_PRODUCTS_DIR value for
+    # dstSubfolderSpec. dstPath is set below.
+    'XPCSERVICES_FOLDER_PATH':          16,  # XPC Services.
   }
 
   def Name(self):
@@ -1988,11 +1991,16 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
       # Everything else needs to be relative to an Xcode variable.
       path_tree = path_tree_match.group(1)
       relative_path = path_tree_match.group(3)
+      separator = '/'
 
       if path_tree in self.path_tree_to_subfolder:
         subfolder = self.path_tree_to_subfolder[path_tree]
         if relative_path is None:
           relative_path = ''
+          separator = ''
+        if path_tree == 'XPCSERVICES_FOLDER_PATH':
+          relative_path = '$(CONTENTS_FOLDER_PATH)/XPCServices' \
+                          + separator + relative_path
       else:
         # The path starts with an unrecognized Xcode variable
         # name like $(SRCROOT).  Xcode will still handle this
