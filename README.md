@@ -40,7 +40,7 @@ same lack of tests prevents submission of the second and third.
 
 To install, clone the repo to your machine and run the following commands in a shell:
 ```bash
-cd <your_gyp_clone> sudo ./setup.py install
+cd <your_gyp_clone>; sudo ./setup.py install
 ```
 On Windows, omit the `sudo`. You can use either a Git Bash or Cygwin Bash shell. 
 
