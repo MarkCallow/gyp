@@ -6,12 +6,12 @@ This fork of the upstream GIT repo at Google has 3 additional features:
 1. The xcode generator recognizes the full set of build variables
 that correspond to the set of destination names for the copy phase,
 as appears in the Xcode UI. Do
-```
-git diff upstream_master xcode_changes
-```
-to see the list. The original version only understands
-'Products Directory' which corresponds to the variable
-`$(BUILD_PRODUCTS_DIR)`.
+ ```
+ git diff upstream_master xcode_changes
+ ```
+ to see the list. The original version only understands
+ the variable `$(BUILD_PRODUCTS_DIR)` which corresponds to
+ 'Products Directory'.
 
     All GYP xcode tests that pass on upstream_master pass with these
     changes. (There are 5 tests that fail in both cases.)
