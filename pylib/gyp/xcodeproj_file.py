@@ -1944,9 +1944,9 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
     'name':             [0, str, 0, 0],
   })
 
-  # path_tree_re matches "$(DIR)/path" or just "$(DIR)".  Match group 1 is
-  # "DIR", match group 3 is "path" or None.
-  path_tree_re = re.compile('^\\$\\((.*?)\\)(/(.*)|)$')
+  # path_tree_re matches "$(DIR)/path", "$(DIR)/$(DIR2)/path" or just "$(DIR)".
+  # Match group 1 is "DIR", match group 3 is "path", "$(DIR2)/path" or None.
+  path_tree_re = re.compile('^\\$\\((.*)\\)(/(.*)|)$')
 
   # path_tree_to_subfolder maps names of Xcode variables to the associated
   # dstSubfolderSpec property value used in a PBXCopyFilesBuildPhase object.
