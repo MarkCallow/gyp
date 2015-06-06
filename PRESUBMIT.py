@@ -124,5 +124,15 @@ def CheckChangeOnCommit(input_api, output_api):
   return report
 
 
-def GetPreferredTrySlaves():
-  return ['gyp-win32', 'gyp-win64', 'gyp-linux', 'gyp-mac', 'gyp-android']
+TRYBOTS = [
+    'gyp-win32',
+    'gyp-win64',
+    'gyp-linux',
+    'gyp-mac',
+]
+
+
+def GetPreferredTryMasters(_, change):
+  return {
+      'tryserver.nacl': { t: set(['defaulttests']) for t in TRYBOTS },
+  }
