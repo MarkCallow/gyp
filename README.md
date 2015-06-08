@@ -27,11 +27,18 @@ The first of these has been submitted to Google but they want
 tests, that I have not had time to write, before merging. The
 same lack of tests prevents submission of the second.
 
-To install, clone the repo to your machine and run the following commands in a shell:
+To install, clone the repo to your machine and run the following
+commands in a shell:
 ```bash
 cd <your_gyp_clone>; sudo ./setup.py install
 ```
-On Windows, omit the `sudo`. You can use either a Git Bash or Cygwin Bash shell. 
+On Windows, use either a Git Bash or Cygwin Bash shell and omit the
+`sudo`. Alternative enter the following commands at a Windows Command
+Prompt (`cmd.exe`):
+```cmd
+cd <your_gyp_clone>
+python setup.py install
+```
 
 * [User documentation](/docs/UserDocumentation.md)
 * [Input Format Reference](/docs/InputFormatReference.md)
