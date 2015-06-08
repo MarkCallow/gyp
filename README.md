@@ -33,7 +33,7 @@ commands in a shell:
 cd <your_gyp_clone>; sudo ./setup.py install
 ```
 On Windows, use either a Git Bash or Cygwin Bash shell and omit the
-`sudo`. Alternative enter the following commands at a Windows Command
+`sudo`. Alternatively enter the following commands at a Windows Command
 Prompt (`cmd.exe`):
 ```cmd
 cd <your_gyp_clone>
