@@ -1,7 +1,7 @@
 GYP can Generate Your Projects.
 ===================================
 
-This fork of the upstream GIT repo at Google has 3 additional features:
+This fork of the upstream GIT repo at Google has 2 additional features:
 
 1. The xcode generator recognizes the full set of build variables
 that correspond to the set of destination names for the copy phase,
@@ -24,20 +24,10 @@ has only been tested with Visual Studio 2010.
 
     All GYP msvs tests are expected to still pass. That will be tested soon.
     
-3. Various changes to the `make` generator to better support generating
-projects to build Android native applications. These include additions
-to the `make_global_settings` dictionary such as being able to create
- _simply expanded variables_ and to specify a TARGET_ABI. The latter
- becomes a component of `builddir` in the generated make files. They
- also in include changes to the handling of path relativization in
- various cases.
- 
-    These changes are a work in progress and are known to break several
-    of the GYP `make` generator tests.
 
 The first of these has been submitted to Google but they want
 tests, that I have not had time to write, before merging. The
-same lack of tests prevents submission of the second and third.
+same lack of tests prevents submission of the second.
 
 To install, clone the repo to your machine and run the following
 commands in a shell:
