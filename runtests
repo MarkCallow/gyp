@@ -19,3 +19,5 @@ export PYTHONPATH=.:$PYTHONPATH
 #      test/ios/gyptest-xcode-ninja.py \
 #      test/mac/gyptest-ldflags-passed-to-libtool.py \
 #      test/mac/gyptest-swift-library.py
+
+./gyptest.py -f msvs --all
