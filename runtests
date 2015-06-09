@@ -9,4 +9,4 @@
 # Set PYTHONPATH to use local rather than installed gyp for testing.
 export PYTHONPATH=.:$PYTHONPATH
 
-./gyptest.py -f msvs
+./gyptest.py --all
