@@ -9,4 +9,13 @@
 # Set PYTHONPATH to use local rather than installed gyp for testing.
 export PYTHONPATH=.:$PYTHONPATH
 
-./gyptest.py --all
+./gyptest.py -f "xcode"
+
+# These tests fail in both upstream_master and xcode_changes.
+# NOTE: test/ios/gyptest-extension.py requires an iOS code-signing identity,
+# so it fails, if you don't have one.
+#./gyptest.py -f "xcode" \
+#      test/copies/gyptest-updir.py \
+#      test/ios/gyptest-xcode-ninja.py \
+#      test/mac/gyptest-ldflags-passed-to-libtool.py \
+#      test/mac/gyptest-swift-library.py
