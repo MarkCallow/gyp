@@ -1,0 +1,12 @@
+#! /bin/bash
+
+# Run tests for formats of interest. Must list all formats of interest;
+# there is no option to omit formats from --all.
+
+# Search for format_list in gyptest.py to see the list of formats.
+# Currently the list is make, msvs, ninja and xcode.
+
+# Set PYTHONPATH to use local rather than installed gyp for testing.
+export PYTHONPATH=.:$PYTHONPATH
+
+./gyptest.py --all
