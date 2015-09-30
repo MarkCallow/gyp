@@ -34,8 +34,8 @@ commands in a shell:
 ```bash
 cd <your_gyp_clone>; sudo ./setup.py install
 ```
-On Windows, use either a Git Bash or Cygwin Bash shell and omit the
-`sudo`. Alternatively enter the following commands at a Windows Command
+On Windows, use either a Git Bash, Git Shell or Cygwin Bash shell and omit
+the `sudo`. Alternatively enter the following commands at a Windows Command
 Prompt (`cmd.exe`):
 ```cmd
 cd <your_gyp_clone>
