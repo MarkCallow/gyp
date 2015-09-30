@@ -211,10 +211,10 @@ cmd_solink_module_host = $(LINK.$(TOOLSET)) -shared $(GYP_LDFLAGS) $(LDFLAGS.$(T
 
 LINK_COMMANDS_AIX = """\
 quiet_cmd_alink = AR($(TOOLSET)) $@
-cmd_alink = rm -f $@ && $(AR.$(TOOLSET)) crs $@ $(filter %.o,$^)
+cmd_alink = rm -f $@ && $(AR.$(TOOLSET)) -X32_64 crs $@ $(filter %.o,$^)
 
 quiet_cmd_alink_thin = AR($(TOOLSET)) $@
-cmd_alink_thin = rm -f $@ && $(AR.$(TOOLSET)) crs $@ $(filter %.o,$^)
+cmd_alink_thin = rm -f $@ && $(AR.$(TOOLSET)) -X32_64 crs $@ $(filter %.o,$^)
 
 quiet_cmd_link = LINK($(TOOLSET)) $@
 cmd_link = $(LINK.$(TOOLSET)) $(GYP_LDFLAGS) $(LDFLAGS.$(TOOLSET)) -o $@ $(LD_INPUTS) $(LIBS)
@@ -274,9 +274,9 @@ all_deps :=
 %(make_global_settings)s
 
 CC.target ?= %(CC.target)s
-CFLAGS.target ?= $(CFLAGS)
+CFLAGS.target ?= $(CPPFLAGS) $(CFLAGS)
 CXX.target ?= %(CXX.target)s
-CXXFLAGS.target ?= $(CXXFLAGS)
+CXXFLAGS.target ?= $(CPPFLAGS) $(CXXFLAGS)
 LINK.target ?= %(LINK.target)s
 LDFLAGS.target ?= $(LDFLAGS)
 AR.target ?= $(AR)
@@ -287,9 +287,9 @@ LINK ?= $(CXX.target)
 # TODO(evan): move all cross-compilation logic to gyp-time so we don't need
 # to replicate this environment fallback in make as well.
 CC.host ?= %(CC.host)s
-CFLAGS.host ?=
+CFLAGS.host ?= $(CPPFLAGS_host) $(CFLAGS_host)
 CXX.host ?= %(CXX.host)s
-CXXFLAGS.host ?=
+CXXFLAGS.host ?= $(CPPFLAGS_host) $(CXXFLAGS_host)
 LINK.host ?= %(LINK.host)s
 LDFLAGS.host ?=
 AR.host ?= %(AR.host)s
@@ -1785,15 +1785,15 @@ $(obj).$(TOOLSET)/$(TARGET)/%%.o: $(obj)/%%%s FORCE_DO_CMD
       # - Make .INTERMEDIATE depend on the intermediate.
       # - The intermediate file depends on the inputs and executes the
       #   actual command.
-      #
-      # For an explanation of the problem and several solutions that don't
-      # work, see this:
-      # http://www.gnu.org/software/hello/manual/automake/Multiple-Outputs.html
+      # - The intermediate recipe will 'touch' the intermediate file.
+      # - The multi-output rule will have an do-nothing recipe.
       intermediate = "%s.intermediate" % (command if command else self.target)
       self.WriteLn('%s: %s' % (' '.join(outputs), intermediate))
+      self.WriteLn('\t%s' % '@:');
       self.WriteLn('%s: %s' % ('.INTERMEDIATE', intermediate))
       self.WriteLn('%s: %s%s' %
                    (intermediate, ' '.join(inputs), force_append))
+      actions.insert(0, '$(call do_cmd,touch)')
 
     if actions:
       for action in actions:

@@ -15,7 +15,7 @@ not_found = 'No dependencies'
 
 
 def _CreateConfigFile(files, targets):
-  """Creates the analyzer conflig file, which is used as the input to analyzer.
+  """Creates the analyzer config file, which is used as the input to analyzer.
   See description of analyzer.py for description of the arguments."""
   f = open('test_file', 'w')
   to_write = {'files': files, 'targets': targets }
@@ -144,6 +144,14 @@ def EnsureInvalidTargets(expected_invalid_targets):
         '\nexpected :', expected_invalid_targets
     test.fail_test()
 
+
+# Two targets, A and B (both static_libraries) and A depends upon B. If a file
+# in B changes, then both A and B are output. It is not strictly necessary that
+# A is compiled in this case, only B.
+_CreateConfigFile(['b.c'], [])
+test.run_gyp('static_library_test.gyp', *CommonArgs())
+EnsureContains(matched=True, build_targets={'a' ,'b'})
+
 # Verifies config_path must be specified.
 test.run_gyp('test.gyp')
 EnsureStdoutContains('Must specify files to analyze via config_path')
@@ -225,6 +233,11 @@ EnsureContains(matched=True, build_targets={'exe', 'exe3'})
 
 # Verifies relative paths are resolved correctly.
 _CreateConfigFile(['subdir/subdir_source.h'], [])
+run_analyzer()
+EnsureContains(matched=True, build_targets={'exe'})
+
+# Verifies relative paths in inputs are resolved correctly.
+_CreateConfigFile(['rel_path1.h'], [])
 run_analyzer()
 EnsureContains(matched=True, build_targets={'exe'})
 
@@ -351,6 +364,6 @@ EnsureContains(matched=True, build_targets={'a', 'b', 'c', 'd'})
 
 _CreateConfigFile(['i.c'], [])
 run_analyzer4()
-EnsureContains(matched=True, build_targets={'h'})
+EnsureContains(matched=True, build_targets={'h', 'i'})
 
 test.pass_test()
