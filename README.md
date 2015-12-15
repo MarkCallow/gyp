@@ -1,4 +1,5 @@
 GYP can Generate Your Projects.
+===================================
 
 This fork of the upstream GIT repo at Google has 3 additional features:
 
@@ -51,11 +52,4 @@ cd <your_gyp_clone>
 python setup.py install
 ```
 
-* [User documentation](/docs/UserDocumentation.md)
-* [Input Format Reference](/docs/InputFormatReference.md)
-* [Language specification](/docs/LanguageSpecification.md)
-* [GYP Hacking](/docs/Hacking.md)
-* [GYP Testing](/docs/Testing.md)
-* [GYP vs. CMake](/docs/GypVsCMake.md)
-* [Source](/docs/Source.md)
-* [Buildbot](/docs/Buildbot.md)
+Documents are available at [gyp.gsrc.io](https://gyp.gsrc.io), or you can check out ```md-pages``` branch to read those documents offline.

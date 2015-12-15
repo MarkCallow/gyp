@@ -1492,6 +1492,7 @@ class PBXFileReference(XCFileLikeElement, XCContainerPortal, XCRemoteObject):
         'icns':        'image.icns',
         'java':        'sourcecode.java',
         'js':          'sourcecode.javascript',
+        'kext':        'wrapper.kext',
         'm':           'sourcecode.c.objc',
         'mm':          'sourcecode.cpp.objcpp',
         'nib':         'wrapper.nib',
@@ -1961,6 +1962,8 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
     'UNLOCALIZED_RESOURCES_FOLDER_PATH': 7,  # Resources
     'JAVA_FOLDER_PATH':                 15,  # Java Resources
     'FRAMEWORKS_FOLDER_PATH':           10,  # Frameworks
+    'BUILT_FRAMEWORKS_DIR':             10,  # Alternate name used by upstream GYP.
+                                             # Not an official Xcode macro
     'SHARED_FRAMEWORKS_FOLDER_PATH':    11,  # Shared Frameworks
     'SHARED_SUPPORT_FOLDER_PATH':       12,  # Shared Support
     'PLUGINS_FOLDER_PATH':              13,  # PlugIns
@@ -2273,6 +2276,8 @@ class PBXNativeTarget(XCTarget):
                                                  '', '.xctest'],
     'com.googlecode.gyp.xcode.bundle':          ['compiled.mach-o.dylib',
                                                  '', '.so'],
+    'com.apple.product-type.kernel-extension':  ['wrapper.kext',
+                                                 '', '.kext'],
   }
 
   def __init__(self, properties=None, id=None, parent=None,
