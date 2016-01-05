@@ -139,8 +139,11 @@ class Target(object):
     self.bundle = None
     # On Windows, incremental linking requires linking against all the .objs
     # that compose a .lib (rather than the .lib itself). That list is stored
-    # here.
+    # here. In this case, we also need to save the compile_deps for the target,
+    # so that the the target that directly depends on the .objs can also depend
+    # on those.
     self.component_objs = None
+    self.compile_deps = None
     # Windows only. The import .lib is the output of a build step, but
     # because dependents only link against the lib (not both the lib and the
     # dll) we keep track of the import library here.
@@ -474,16 +477,17 @@ class NinjaWriter(object):
     elif self.flavor == 'mac' and len(self.archs) > 1:
       link_deps = collections.defaultdict(list)
 
-
+    compile_deps = self.target.actions_stamp or actions_depends
     if self.flavor == 'win' and self.target.type == 'static_library':
       self.target.component_objs = link_deps
+      self.target.compile_deps = compile_deps
 
     # Write out a link step, if needed.
     output = None
     is_empty_bundle = not link_deps and not mac_bundle_depends
     if link_deps or self.target.actions_stamp or actions_depends:
       output = self.WriteTarget(spec, config_name, config, link_deps,
-                                self.target.actions_stamp or actions_depends)
+                                compile_deps)
       if self.is_mac_bundle:
         mac_bundle_depends.append(output)
 
@@ -1054,16 +1058,16 @@ class NinjaWriter(object):
       cmd = map.get(lang)
       ninja_file.build(gch, cmd, input, variables=[(var_name, lang_flag)])
 
-  def WriteLink(self, spec, config_name, config, link_deps):
+  def WriteLink(self, spec, config_name, config, link_deps, compile_deps):
     """Write out a link step. Fills out target.binary. """
     if self.flavor != 'mac' or len(self.archs) == 1:
       return self.WriteLinkForArch(
-          self.ninja, spec, config_name, config, link_deps)
+          self.ninja, spec, config_name, config, link_deps, compile_deps)
     else:
       output = self.ComputeOutput(spec)
       inputs = [self.WriteLinkForArch(self.arch_subninjas[arch], spec,
                                       config_name, config, link_deps[arch],
-                                      arch=arch)
+                                      compile_deps, arch=arch)
                 for arch in self.archs]
       extra_bindings = []
       build_output = output
@@ -1082,7 +1086,7 @@ class NinjaWriter(object):
       return output
 
   def WriteLinkForArch(self, ninja_file, spec, config_name, config,
-                       link_deps, arch=None):
+                       link_deps, compile_deps, arch=None):
     """Write out a link step. Fills out target.binary. """
     command = {
       'executable':      'link',
@@ -1093,6 +1097,15 @@ class NinjaWriter(object):
 
     implicit_deps = set()
     solibs = set()
+    order_deps = set()
+
+    if compile_deps:
+      # Normally, the compiles of the target already depend on compile_deps,
+      # but a shared_library target might have no sources and only link together
+      # a few static_library deps, so the link step also needs to depend
+      # on compile_deps to make sure actions in the shared_library target
+      # get run before the link.
+      order_deps.add(compile_deps)
 
     if 'dependencies' in spec:
       # Two kinds of dependencies:
@@ -1111,6 +1124,8 @@ class NinjaWriter(object):
               target.component_objs and
               self.msvs_settings.IsUseLibraryDependencyInputs(config_name)):
             new_deps = target.component_objs
+            if target.compile_deps:
+              order_deps.add(target.compile_deps)
           elif self.flavor == 'win' and target.import_lib:
             new_deps = [target.import_lib]
           elif target.UsesToc(self.flavor):
@@ -1249,6 +1264,7 @@ class NinjaWriter(object):
 
     ninja_file.build(output, command + command_suffix, link_deps,
                      implicit=list(implicit_deps),
+                     order_only=list(order_deps),
                      variables=extra_bindings)
     return linked_binary
 
@@ -1263,7 +1279,7 @@ class NinjaWriter(object):
       self.target.type = 'none'
     elif spec['type'] == 'static_library':
       self.target.binary = self.ComputeOutput(spec)
-      if (self.flavor not in ('mac', 'openbsd', 'win') and not
+      if (self.flavor not in ('mac', 'openbsd', 'netbsd', 'win') and not
           self.is_standalone_static_library):
         self.ninja.build(self.target.binary, 'alink_thin', link_deps,
                          order_only=compile_deps)
@@ -1300,7 +1316,8 @@ class NinjaWriter(object):
                            # needed.
                            variables=variables)
     else:
-      self.target.binary = self.WriteLink(spec, config_name, config, link_deps)
+      self.target.binary = self.WriteLink(spec, config_name, config, link_deps,
+                                          compile_deps)
     return self.target.binary
 
   def WriteMacBundle(self, spec, mac_bundle_depends, is_empty):
@@ -1828,7 +1845,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params,
     ld_host = '$cc_host'
     ldxx_host = '$cxx_host'
 
-  ar_host = 'ar'
+  ar_host = ar
   cc_host = None
   cxx_host = None
   cc_host_global_setting = None
