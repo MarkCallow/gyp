@@ -39,24 +39,35 @@ The first of these has been submitted to Google but they want
 tests, that I have not had time to write, before merging. The
 same lack of tests prevents submission of the second and third.
 
+GYP is a Python application requiring Python 2.7.
+
 To install, clone the repo to your machine and run the following
 commands in a shell:
+
 ```bash
 cd <your_gyp_clone>; sudo ./setup.py install
 ```
+
 On Windows, use either a Git Bash or Cygwin Bash shell and omit the
 `sudo`. Alternatively enter the following commands at a Windows Command
 Prompt (`cmd.exe`):
+
 ```cmd
 cd <your_gyp_clone>
 python setup.py install
 ```
 
-* [User documentation](/docs/UserDocumentation.md)
-* [Input Format Reference](/docs/InputFormatReference.md)
-* [Language specification](/docs/LanguageSpecification.md)
-* [GYP Hacking](/docs/Hacking.md)
-* [GYP Testing](/docs/Testing.md)
-* [GYP vs. CMake](/docs/GypVsCMake.md)
-* [Source](/docs/Source.md)
-* [Buildbot](/docs/Buildbot.md)
+Documents are available at [gyp.gsrc.io](https://gyp.gsrc.io), or you
+can check out the ```md-pages``` branch to read those documents offline.
+
+### Installing Python 2.7
+
+Visit the [Python Downloads](https://www.python.org/downloads/) page
+to learn how to install Python for your OS.
+
+On Windows you can use either the [native Windows version](https://www.python.org/downloads/windows/)
+(recommended) or the version found in [Cygwin](https://www.cygwin.com).
+
+If you install the native Windows version you must add `<python>` and
+`<python>/Scripts` to the PATH environment in Windows. `<python>` represents
+your actual install directory which defaults to `C:\Python27`.
