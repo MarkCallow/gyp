@@ -442,6 +442,7 @@ class MsvsSettings(object):
     cl('FloatingPointModel',
         map={'0': 'precise', '1': 'strict', '2': 'fast'}, prefix='/fp:',
         default='0')
+    cl('CompileAsManaged', map={'false': '', 'true': '/clr'})
     cl('WholeProgramOptimization', map={'true': '/GL'})
     cl('WarningLevel', prefix='/W')
     cl('WarnAsError', map={'true': '/WX'})
@@ -592,6 +593,15 @@ class MsvsSettings(object):
        map={'1': 'CONSOLE%s' % minimum_required_version,
             '2': 'WINDOWS%s' % minimum_required_version},
        prefix='/SUBSYSTEM:')
+
+    stack_reserve_size = self._Setting(
+        ('VCLinkerTool', 'StackReserveSize'), config, default='')
+    if stack_reserve_size:
+      stack_commit_size = self._Setting(
+          ('VCLinkerTool', 'StackCommitSize'), config, default='')
+      if stack_commit_size:
+        stack_commit_size = ',' + stack_commit_size
+      ldflags.append('/STACK:%s%s' % (stack_reserve_size, stack_commit_size))
 
     ld('TerminalServerAware', map={'1': ':NO', '2': ''}, prefix='/TSAWARE')
     ld('LinkIncremental', map={'1': ':NO', '2': ''}, prefix='/INCREMENTAL')
@@ -951,6 +961,10 @@ def _ExtractImportantEnvironment(output_of_set):
       'tmp',
       )
   env = {}
+  # This occasionally happens and leads to misleading SYSTEMROOT error messages
+  # if not caught here.
+  if output_of_set.count('=') == 0:
+    raise Exception('Invalid output_of_set. Value is:\n%s' % output_of_set)
   for line in output_of_set.splitlines():
     for envvar in envvars_to_save:
       if re.match(envvar + '=', line.lower()):
@@ -1019,6 +1033,8 @@ def GenerateEnvironmentFiles(toplevel_build_dir, generator_flags,
     popen = subprocess.Popen(
         args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     variables, _ = popen.communicate()
+    if popen.returncode != 0:
+      raise Exception('"%s" failed with error %d' % (args, popen.returncode))
     env = _ExtractImportantEnvironment(variables)
 
     # Inject system includes from gyp files into INCLUDE.
