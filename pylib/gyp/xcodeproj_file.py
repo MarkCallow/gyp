@@ -1492,6 +1492,7 @@ class PBXFileReference(XCFileLikeElement, XCContainerPortal, XCRemoteObject):
         'icns':        'image.icns',
         'java':        'sourcecode.java',
         'js':          'sourcecode.javascript',
+        'kext':        'wrapper.kext',
         'm':           'sourcecode.c.objc',
         'mm':          'sourcecode.cpp.objcpp',
         'nib':         'wrapper.nib',
@@ -1944,24 +1945,32 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
     'name':             [0, str, 0, 0],
   })
 
-  # path_tree_re matches "$(DIR)/path" or just "$(DIR)".  Match group 1 is
-  # "DIR", match group 3 is "path" or None.
+  # path_tree_re matches "$(DIR)/path", "$(DIR)/$(DIR2)/path" or just "$(DIR)".
+  # Match group 1 is "DIR", match group 3 is "path", "$(DIR2)/path" or None.
   path_tree_re = re.compile('^\\$\\((.*)\\)(/(.*)|)$')
 
   # path_tree_to_subfolder maps names of Xcode variables to the associated
   # dstSubfolderSpec property value used in a PBXCopyFilesBuildPhase object.
   path_tree_to_subfolder = {
-    'BUILT_PRODUCTS_DIR': 16,  # Products Directory
-    # Other types that can be chosen via the Xcode UI.
-    # TODO(mark): Map Xcode variable names to these.
-    # : 1,  # Wrapper
-    # : 6,  # Executables: 6
-    # : 7,  # Resources
-    # : 15,  # Java Resources
-    # : 10,  # Frameworks
-    # : 11,  # Shared Frameworks
-    # : 12,  # Shared Support
-    # : 13,  # PlugIns
+    # Types that can be chosen via the Xcode UI.
+    'BUILT_PRODUCTS_DIR':               16,  # Products Directory
+    'WRAPPER_NAME':                      1,  # Wrapper
+    # Although Xcode's friendly name is "Executables", the destination
+    # is demonstrably the value of the build setting
+    # EXECUTABLE_FOLDER_PATH not EXECUTABLES_FOLDER_PATH.
+    'EXECUTABLE_FOLDER_PATH':            6,  # Executables.
+    'UNLOCALIZED_RESOURCES_FOLDER_PATH': 7,  # Resources
+    'JAVA_FOLDER_PATH':                 15,  # Java Resources
+    'FRAMEWORKS_FOLDER_PATH':           10,  # Frameworks
+    'BUILT_FRAMEWORKS_DIR':             10,  # Alternate name used by upstream GYP.
+                                             # Not an official Xcode macro
+    'SHARED_FRAMEWORKS_FOLDER_PATH':    11,  # Shared Frameworks
+    'SHARED_SUPPORT_FOLDER_PATH':       12,  # Shared Support
+    'PLUGINS_FOLDER_PATH':              13,  # PlugIns
+    # For XPC Services, Xcode sets both dstPath and dstSubfolderSpec.
+    # Note that it re-uses the BUILT_PRODUCTS_DIR value for
+    # dstSubfolderSpec. dstPath is set below.
+    'XPCSERVICES_FOLDER_PATH':          16,  # XPC Services.
   }
 
   def Name(self):
@@ -1985,11 +1994,16 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
       # Everything else needs to be relative to an Xcode variable.
       path_tree = path_tree_match.group(1)
       relative_path = path_tree_match.group(3)
+      separator = '/'
 
       if path_tree in self.path_tree_to_subfolder:
         subfolder = self.path_tree_to_subfolder[path_tree]
         if relative_path is None:
           relative_path = ''
+          separator = ''
+        if path_tree == 'XPCSERVICES_FOLDER_PATH':
+          relative_path = '$(CONTENTS_FOLDER_PATH)/XPCServices' \
+                          + separator + relative_path
       else:
         # The path starts with an unrecognized Xcode variable
         # name like $(SRCROOT).  Xcode will still handle this
@@ -2262,6 +2276,8 @@ class PBXNativeTarget(XCTarget):
                                                  '', '.xctest'],
     'com.googlecode.gyp.xcode.bundle':          ['compiled.mach-o.dylib',
                                                  '', '.so'],
+    'com.apple.product-type.kernel-extension':  ['wrapper.kext',
+                                                 '', '.kext'],
   }
 
   def __init__(self, properties=None, id=None, parent=None,

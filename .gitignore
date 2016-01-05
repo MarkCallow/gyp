@@ -1,5 +1,5 @@
 *.pyc
 /build
 /dist
+/out
 /pylib/gyp.egg-info
-
