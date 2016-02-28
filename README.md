@@ -10,7 +10,7 @@ as appears in the Xcode UI. Do
  git diff upstream_master xcode_changes
  ```
  to see the list. The original version only understands
- the variable `$(BUILD_PRODUCTS_DIR)` which corresponds to
+ the variable `$(BUILT_PRODUCTS_DIR)` which corresponds to
  'Products Directory'.
 
     All GYP xcode tests that pass on upstream_master pass with these
