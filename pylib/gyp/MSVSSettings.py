@@ -680,92 +680,6 @@ _Same(_compile, 'WarningLevel',
                     'Level4'],  # /W4
                    new=['EnableAllWarnings']))  # /Wall
 
-# MSVS options for msvs_configuration_platform Emscripten (vs-tool)
-# XXX Need to find a non-intrusive way to make these only valid for
-# this platform.
-_Same(_compile, 'AssemblerOutput', _boolean)
-_Same(_compile, 'ClangCompileFlags', _string)
-_Same(_compile, 'DependencyFileName', _file_name)
-_Same(_compile, 'GenerateAST', _boolean)
-# Since the type (enumeration) is different from that for the
-# standard VCCompiler (Win32 & x64 configs), it is lucky that
-# the name is slightly different.
-_Same(_compile, 'GenerateDebugInfo',
-      _Enumeration(['NoDebugInfo',
-		            'LimitedDebugInfo',
-					'FullDebugInfo']))
-_Same(_compile, 'GenerateDependencyFile', _boolean)
-_Same(_compile, 'DisableWarnings', _string_list)
-_Same(_compile, 'EchoCommandLines', _boolean)
-_Same(_compile, 'EnableWarnings', _string_list)
-_Same(_compile, 'LanguageExtensions',
-	  _Enumeration(['EnableLanguageExtensions',
-		            'WarnLanguageExtensions',
-				    'ErrorLanguageExtensions'])),
-_Same(_compile,	'EnableMicrosoftExtensions', _boolean)
-_Same(_compile, 'SpecifiyMscVer',
-	  _Enumeration(['NotSet',
-		           'VisualC6',
-		           'VisualC7',
-		           'VisualC71',
-		           'VisualC80',
-		           'VisualC90',
-		           'VisualC100',
-		           'VisualC110']))
-_Same(_compile, 'LanguageStandardMode',
-	  _Enumeration(['NoLanguageStandardSet',
-		            'LanguageStandardC89',
-		            'LanguageStandardGnu89',
-		            'LanguageStandardC94',
-		            'LanguageStandardC99',
-		            'LanguageStandardGnu99',
-		            'LanguageStandardCxx03',
-		            'LanguageStandardGnu++98',
-		            'LanguageStandardC++11',
-		            'LanguageStandardGnu++11',
-		            'LanguageStandardOpenCL',
-		            'LanguageStandardCuda']))
-_Same(_compile, 'ObjectFileName', _file_name)
-_Same(_compile, 'OptimizationLevel',
-	  _Enumeration(['OptimizationNotSet',
-                    'Os',
-					'Oz',
-					'O0',
-					'O1',
-					'O2',
-					'O3',
-					'O4']))
-_Same(_compile, 'OutputHeaderIncludeChain', _boolean)
-# This one is annoyingly and unnecessarily different from the
-# Win32 & x64 configs
-_Same(_compile, 'PreprocessorUndefinitions', _string_list)
-_Same(_compile, 'PreprocessToFile',
-	  _Enumeration(['NoPreprocess',
-		            'PreprocessWithoutCommentsOrLines',
-					'PreprocessWithoutComments',
-					'PreprocessWithCommentsNoLines',
-					'PreprocessWithComments',
-					'PreprocessWithCommentsInMacrosNoLines',
-					'PreprocessWithCommentsInMacros']))
-_Same(_compile, 'PreserveTempFiles', _boolean)
-_Same(_compile, 'RunStaticAnalysis', _boolean)
-_Same(_compile, 'UseThreadSanitizer', _boolean)
-_Same(_compile, 'NotSaneOperatorNew', _boolean)
-_Same(_compile, 'Warnings',
-	  _Enumeration(['DisableAllWarnings',
-		            'NormalWarnings',
-					'AllWarnings']))
-# This is also unnecessarily different
-_Same(_compile, 'SpecificWarningsAsErrors', _string_list)
-_Same(_compile, 'SystemPreprocessorDefinitions', _string_list)
-_Same(_compile, 'VerboseOutput',
-	  _Enumeration(['NoVerboseOutput',
-		            'PrintCommands',
-					'VerboseOutputMode']))
-_Same(_compile, 'WarningsAsErrors', _boolean)
-_Same(_compile, 'WarnSystemHeaders', _boolean)
-
-
 # Options found in MSVS that have been renamed in MSBuild.
 _Renamed(_compile, 'EnableFunctionLevelLinking', 'FunctionLevelLinking',
          _boolean)  # /Gy
@@ -965,31 +879,6 @@ _Moved(_link, 'IgnoreImportLibrary', '', _boolean)
 _Moved(_link, 'LinkIncremental', '', _newly_boolean)
 _Moved(_link, 'LinkLibraryDependencies', 'ProjectReference', _boolean)
 _Moved(_link, 'UseLibraryDependencyInputs', 'ProjectReference', _boolean)
-
-# MSVS options for msvs_configuration_platform Emscripten (vs-tool)
-# XXX Need to find a non-intrusive way to make these only valid for
-# this platform.
-_Same(_link, 'EchoCommandLines', _boolean)
-_Same(_link, 'EmbedFile', _file_list)
-_Same(_link, 'IgnoreDynamicLinking', _boolean)
-_Same(_link, 'HTMLShellFile', _file_name)
-_Same(_link, 'JsLibrary', _file_list)
-_Same(_link, 'LinkerOptimizationLevel',
-      _Enumeration(['OptimizationNotSet',
-		            'O0',    # -O0
-                    'O1',    # -O1
-                    'O2',    # -O2
-                    'O3']))  # -O3
-_Same(_link, 'PreJsFile', _file_name)
-_Same(_link, 'PreloadFile', _file_name)
-_Same(_link, 'PostJsFile', _file_name)
-_Same(_link, 'RunClosureCompiler', _boolean)
-_Same(_link, 'RunMinify', _boolean)
-_Same(_link, 'TypedArrays',
-	  _Enumeration(['NotSet',
-		            'NoTypedArrays',		# --typed-arrays=0
-		            'ParallelTypedArrays',	# --typed-arrays=1
-					'SharedTypedArrays']))	# --typed-arrays=2
 
 # MSVS options not found in MSBuild.
 _MSVSOnly(_link, 'OptimizeForWindows98', _newly_boolean)
