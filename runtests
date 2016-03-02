@@ -6,10 +6,11 @@
 # Search for format_list in gyptest.py to see the list of formats.
 # Currently the list is make, msvs, ninja and xcode.
 
-# Set PYTHONPATH to use local rather than installed gyp for testing.
-export PYTHONPATH=.:$PYTHONPATH
+# Note that test/lib/TestGyp.py makes sure it uses the gyp command
+# in this directory not the installed gyp so no need for something
+# like export PYTHONPATH=.:$PYTHONPATH.
 
-./gyptest.py -f "xcode"
+./gyptest.py -f "xcode" -a
 
 # These tests fail in both upstream_master and xcode_changes.
 # NOTE: test/ios/gyptest-extension.py requires an iOS code-signing identity,
