@@ -10,5 +10,6 @@
 # in this directory not the installed gyp so no need for something
 # like export PYTHONPATH=.:$PYTHONPATH.
 
-./gyptest.py -f "xcode" -a
+# ./gyptest.py -f "msvs,make" -a  # Must be run on Windows
+./gyptest.py -f "xcode,make" -a   # Must be run on OS X.
 
