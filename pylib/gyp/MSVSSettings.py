@@ -683,7 +683,10 @@ _Same(_compile, 'WarningLevel',
 # MSVS options for msvs_configuration_platform Emscripten (vs-tool)
 # XXX Need to find a non-intrusive way to make these only valid for
 # this platform.
-_Same(_compile, 'AssemblerOutput', _boolean)
+# XXX This has the same name but a different type than the standard
+# VCCompiler (Win32 & x64 platforms). If uncommented, this will
+# overwrite the previous definition. Not sure how to fix. 
+# XXX _Same(_compile, 'AssemblerOutput', _boolean)
 _Same(_compile, 'ClangCompileFlags', _string)
 _Same(_compile, 'DependencyFileName', _file_name)
 _Same(_compile, 'GenerateAST', _boolean)
@@ -736,8 +739,8 @@ _Same(_compile, 'OptimizationLevel',
 					'O3',
 					'O4']))
 _Same(_compile, 'OutputHeaderIncludeChain', _boolean)
-# This one is annoyingly and unnecessarily different from the
-# Win32 & x64 configs
+# This time the name annoyingly and unnecessarily different
+# from the Win32 & x64 platforms.
 _Same(_compile, 'PreprocessorUndefinitions', _string_list)
 _Same(_compile, 'PreprocessToFile',
 	  _Enumeration(['NoPreprocess',
@@ -755,7 +758,7 @@ _Same(_compile, 'Warnings',
 	  _Enumeration(['DisableAllWarnings',
 		            'NormalWarnings',
 					'AllWarnings']))
-# This is also unnecessarily different
+# This name is also unnecessarily different
 _Same(_compile, 'SpecificWarningsAsErrors', _string_list)
 _Same(_compile, 'SystemPreprocessorDefinitions', _string_list)
 _Same(_compile, 'VerboseOutput',
