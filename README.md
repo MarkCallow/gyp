@@ -10,11 +10,19 @@ as appears in the Xcode UI. Do
  ```
  git diff upstream_master xcode_changes
  ```
- to see the list. The original version only understands
- the variable `$(BUILT_PRODUCTS_DIR)` which corresponds to
- 'Products Directory'. See branch `xcode_changes`.
+ to see the list. See branch `xcode_changes`.
+ 
+    After these changes, the Destination option menu in the Xcode UI for Copy
+    phases will show the correct destination for a destination specified with
+    any of the Xcode destination environment variables. Previously the
+    option menu would always show "Products Directory" and the only supported
+    environment variable was `UNLOCALIZED_RESOURCES_FOLDER_PATH`. Any other
+    destination would have to be specified using an explicit path name. This
+    is difficult because the paths differ according to platform (iOS, OS X)
+    and bundle type. See [this .gyp file](test/mac/copies-with-xcode-envvars/copies-with-xcode-envvars.gyp)
+    from the new test for the complete list and to see usage.
 
-    All GYP xcode tests pass with these changes.
+    All GYP tests for Xcode, Make & Ninja formats pass on a Mac with these changes.
 
 2. The msvs generator supports Emscripten's [vs-tool](https://github.com/juj/vs-tool/)
 plug-in for Visual Studio 2010. That is, it recognizes the properties `vs-tool` offers to
@@ -37,9 +45,14 @@ to the `make_global_settings` dictionary such as being able to create
 
 Branch `master` contains 1 and 2 as of this writing.
 
-Number 1 has been submitted to Google but before merging
-they want tests, that I have not had time to write. The
-same lack of tests prevents submission of 2 and 3.
+No. 1 has been submitted to Google but before merging
+they want tests. Test have finally been written, which has led to
+some code updates. It will be resubmitted soon.
+
+No. 2 will not be submitted upstream as there are no plans for
+`vs-tool` to support anything more modern than Visual Studio 2010.
+
+No. 3 is not yet complete.
 
 GYP is a Python application requiring Python 2.7.
 
@@ -69,9 +82,9 @@ to learn how to install Python for your OS.
 
 On OS X you can use the Apple provided Python 2.7 which is in `/usr/bin`
 or you can install a slightly more recent version using the [python.org](www.python.org)
-installer. If using the latter, and you want to run the GYP tests you
-must install [PyObjC](https://pythonhosted.org/pyobjc/), which is
-included in the Apple-provided Python. The easiest way is
+installer. If using the latter, and you want to run the GYP tests or generate Ninja
+format projects on a Mac, you must install [PyObjC](https://pythonhosted.org/pyobjc/),
+which is included in the Apple-provided Python. The easiest way is
 
 ```bash
 pip install -u pyobjc
