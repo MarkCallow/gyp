@@ -51,6 +51,3 @@ if sys.platform == 'darwin':
   out_path = test.built_file_path(contents_path + 'XPCServices/file11', chdir='copies-with-xcode-envvars')
   test.must_contain(out_path, 'file11 contents\n')
   test.pass_test()
-else:
-  msg = 'Invalid test for %r platform; skipping test.\n'
-  self.skip_test(msg % sys.platform)
