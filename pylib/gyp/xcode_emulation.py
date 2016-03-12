@@ -1564,26 +1564,27 @@ def _GetXcodeEnv(xcode_settings, built_products_dir, srcroot, configuration,
       env['MACH_O_TYPE'] = mach_o_type
     env['PRODUCT_TYPE'] = xcode_settings.GetProductType()
   if xcode_settings._IsBundle():
+    # xcodeproj_file.py sets the same Xcode subfolder value for this as for
+    # FRAMEWORKS_FOLDER_PATH so Xcode builds will actually use FFP's value.
     env['BUILT_FRAMEWORKS_DIR'] = \
         os.path.join(built_products_dir + os.sep \
                      + xcode_settings.GetBundleFrameworksFolderPath())
     env['CONTENTS_FOLDER_PATH'] = \
         xcode_settings.GetBundleContentsFolderPath()
-    env['EXECUTABLE_FOLDER_PATH'] = xcode_settings.GetBundleExecutableFolderPath()
+    env['EXECUTABLE_FOLDER_PATH'] = \
+        xcode_settings.GetBundleExecutableFolderPath()
     env['UNLOCALIZED_RESOURCES_FOLDER_PATH'] = \
         xcode_settings.GetBundleResourceFolder()
     env['JAVA_FOLDER_PATH'] = xcode_settings.GetBundleJavaFolderPath()
     env['FRAMEWORKS_FOLDER_PATH'] = \
         xcode_settings.GetBundleFrameworksFolderPath()
-    # xcodeproj_file.py sets the same Xcode subfolder value for this as for
-    # FRAMEWORKS_FOLDER_PATH so Xcode builds will actually use FFP's value.
-    # The value is null for non-bundle builds.
     env['SHARED_FRAMEWORKS_FOLDER_PATH'] = \
         xcode_settings.GetBundleSharedFrameworksFolderPath()
     env['SHARED_SUPPORT_FOLDER_PATH'] = \
         xcode_settings.GetBundleSharedSupportFolderPath()
     env['PLUGINS_FOLDER_PATH'] = xcode_settings.GetBundlePlugInsFolderPath()
-    env['XPCSERVICES_FOLDER_PATH'] = xcode_settings.GetBundleXPCServicesFolderPath()
+    env['XPCSERVICES_FOLDER_PATH'] = \
+        xcode_settings.GetBundleXPCServicesFolderPath()
     env['INFOPLIST_PATH'] = xcode_settings.GetBundlePlistPath()
     env['WRAPPER_NAME'] = xcode_settings.GetWrapperName()
 

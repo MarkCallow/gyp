@@ -1957,9 +1957,10 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
   path_tree_first_to_subfolder = {
     # Types that can be chosen via the Xcode UI.
     'BUILT_PRODUCTS_DIR':               16,  # Products Directory
-    'BUILT_FRAMEWORKS_DIR':             10,  # Not an official Xcode macro. Was in
-                                             # code before support for the names
-                                             # below was added. Maps to "Frameworks".
+    'BUILT_FRAMEWORKS_DIR':             10,  # Not an official Xcode macro.
+                                             # Existed before support for the
+                                             # names below was added. Maps to
+                                             # "Frameworks".
   }
 
   path_tree_second_to_subfolder = {
@@ -2010,10 +2011,11 @@ class PBXCopyFilesBuildPhase(XCBuildPhase):
           # second element is possibly one of the variable names in
           # path_tree_second_to_subfolder. Xcode sets the values of all these
           # variables to relative paths so .gyp files must prefix them with
-          # BUILT_PRODUCTS_DIR, e.g. $(BUILT_PRODUCTS_DIR)/$(PLUGINS_FOLDER_PATH).
-          # Then xcode_emulation.py can export these variables with the same
-          # values as Xcode yet make & ninja files can determine the absolute
-          # path to the target. Xcode uses the dstSubfolderSpec value set here
+          # BUILT_PRODUCTS_DIR, e.g.
+          # $(BUILT_PRODUCTS_DIR)/$(PLUGINS_FOLDER_PATH). Then
+          # xcode_emulation.py can export these variables with the same values
+          # as Xcode yet make & ninja files can determine the absolute path
+          # to the target. Xcode uses the dstSubfolderSpec value set here
           # to determine the full path.
           #
           # An alternative of xcode_emulation.py setting the values to absolute

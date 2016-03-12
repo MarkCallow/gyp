@@ -26,7 +26,8 @@ test $SHARED_FRAMEWORKS_FOLDER_PATH = \
 test $SHARED_SUPPORT_FOLDER_PATH = \
     bundle_loadable_module.bundle/Contents/SharedSupport
 test $PLUGINS_FOLDER_PATH = bundle_loadable_module.bundle/Contents/PlugIns
-test $XPCSERVICES_FOLDER_PATH = bundle_loadable_module.bundle/Contents/XPCServices
+test $XPCSERVICES_FOLDER_PATH = \
+    bundle_loadable_module.bundle/Contents/XPCServices
 
 [[ ! $DYLIB_INSTALL_NAME_BASE && ${DYLIB_INSTALL_NAME_BASE-_} ]]
 [[ ! $LD_DYLIB_INSTALL_NAME && ${LD_DYLIB_INSTALL_NAME-_} ]]
