@@ -2,7 +2,7 @@ GYP can Generate Your Projects.
 ===================================
 
 This fork of the [upstream GIT repo](https://chromium.googlesource.com/external/gyp)
-at Google has 3 additional features:
+at Google has 4 additional features:
 
 1. The xcode generator recognizes the full set of build variables
 that correspond to the set of destination names for the copy phase,
@@ -22,37 +22,46 @@ as appears in the Xcode UI. Do
     and bundle type. See [this .gyp file](test/mac/copies-with-xcode-envvars/copies-with-xcode-envvars.gyp)
     from the new test for the complete list and to see usage.
 
-    All GYP tests for Xcode, Make & Ninja formats pass on a Mac with these changes.
+    All GYP tests for Xcode, make & ninja formats pass on a Mac with these
+    changes.
 
 2. The msvs generator supports Emscripten's [vs-tool](https://github.com/juj/vs-tool/)
-plug-in for Visual Studio 2010. That is, it recognizes the properties `vs-tool` offers to
-control the Emscripten compiler and linker. These properties
-can be included in an `msvs_settings` dictionary. Note this feature
-has only been tested with VS 2010. See branch `vs-tool_support`.
+plug-in for Visual Studio 2010. That is, it recognizes the properties
+`vs-tool` offers to control the Emscripten compiler and linker. These
+properties can be included in an `msvs_settings` dictionary. Note this
+feature has only been tested with VS 2010. See branch `vs-tool_support`.
 
     All GYP msvs tests are expected to still pass. That will be tested soon.
     
-3. Various changes to the `make` generator to better support generating
+3. The make generator "sourceifys" source paths in `copies` that contain
+environment variables, e.g $(BUILDTYPE). Standard `gyp` only "sourceifys"
+paths without environment variables. The make generator also "sourceifys"
+paths specified in `library_dirs`. See branch `make_changes_copies`.
+
+    All gyp make, ninja and cmake tests pass on Linux with these changes.
+
+4. Various changes to the `make` generator to better support generating
 projects to build Android native applications. These include additions
 to the `make_global_settings` dictionary such as being able to create
  _simply expanded variables_ and to specify a `TARGET_ABI`. The latter
  becomes a component of `builddir` in the generated make files. They
  also in include changes to the handling of path relativization in
- various cases. See branch `make_changes`.
+ various cases. See branch `make_changes_all`.
  
     These changes are a work in progress and are known to break several
     of the GYP `make` generator tests.
 
-Branch `master` contains 1 and 2 as of this writing.
+Branch `master` contains 1, 2 & 3 as of this writing.
 
-No. 1 has been submitted to Google but before merging
-they want tests. Test have finally been written, which has led to
-some code updates. It will be resubmitted soon.
+No. 1 has been submitted to Google complete with tests and is
+awaiting review.
 
 No. 2 will not be submitted upstream as there are no plans for
 `vs-tool` to support anything more modern than Visual Studio 2010.
 
-No. 3 is not yet complete.
+No. 3 may be submitted in future.
+
+No. 4 is not yet complete.
 
 GYP is a Python application requiring Python 2.7.
 
