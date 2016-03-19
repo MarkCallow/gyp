@@ -90,17 +90,22 @@ Visit the [Python Downloads](https://www.python.org/downloads/) page
 to learn how to install Python for your OS.
 
 On OS X you can use the Apple provided Python 2.7 which is in `/usr/bin`
-or you can install a slightly more recent version using the [python.org](www.python.org)
-installer. If using the latter, and you want to run the GYP tests or generate Ninja
-format projects on a Mac, you must install [PyObjC](https://pythonhosted.org/pyobjc/),
+or you can install a slightly more recent version using the
+[python.org](www.python.org) installer. If using the latter, and you want
+to run the GYP tests or generate Ninja format projects on a Mac, you must
+install [PyObjC](https://pythonhosted.org/pyobjc/),
 which is included in the Apple-provided Python. The easiest way is
 
 ```bash
 pip install -u pyobjc
 ```
 
-On Windows you can use either the [native Windows version](https://www.python.org/downloads/windows/)
+On Windows you can use either the
+[native Windows version](https://www.python.org/downloads/windows/)
 (recommended) or the version found in [Cygwin](https://www.cygwin.com).
+To run the GYP tests or generate Ninja format projects on Windows
+you must install the [Python for Windows
+extensions](https://sourceforge.net/projects/pywin32/?source=typ_redirect).
 
 If you install the native Windows version you must add `<python>` and
 `<python>/Scripts` to the PATH environment in Windows. `<python>` represents
