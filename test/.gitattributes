@@ -1,0 +1,3 @@
+# Ensure these have only LF so contents comparisons in tests work.
+copies/src/**/file* eol=lf
+generator-output/copies/**/file* eol=lf
