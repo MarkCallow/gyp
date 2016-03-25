@@ -625,6 +625,20 @@ def Sourceify(path):
   return srcdir_prefix + path
 
 
+def Sourceify2(path):
+  """Convert a path to its source directory form, provided it does not
+  start with '$('.
+
+  Needed to support having variables like $(BUILDTYPE) in library_dirs
+  paths. New function added so as not to break existing uses of Sourceify.
+  """
+  if os.path.isabs(path):
+    return path
+  if path.startswith('$('):
+    return path
+  return srcdir_prefix + path
+
+
 def QuoteSpaces(s, quote=r'\ '):
   return s.replace(' ', quote)
 
@@ -1480,6 +1494,8 @@ $(obj).$(TOOLSET)/$(TARGET)/%%.o: $(obj)/%%%s FORCE_DO_CMD
             ldflags.append(r'-Wl,-rpath-link=\$(builddir)/lib.%s/' %
                            self.toolset)
         library_dirs = config.get('library_dirs', [])
+        if library_dirs:
+          library_dirs = map(Sourceify2, map(self.Absolutify, library_dirs))
         ldflags += [('-L%s' % library_dir) for library_dir in library_dirs]
         self.WriteList(ldflags, 'LDFLAGS_%s' % configname)
         if self.flavor == 'mac':
