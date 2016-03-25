@@ -1497,8 +1497,6 @@ $(obj).$(TOOLSET)/$(TARGET)/%%.o: $(obj)/%%%s FORCE_DO_CMD
             ldflags.append(r'-Wl,-rpath-link=\$(builddir)/lib.%s/' %
                            self.toolset)
         library_dirs = config.get('library_dirs', [])
-        if library_dirs:
-          library_dirs = map(Sourceify2, map(self.Absolutify, library_dirs))
         ldflags += [('-L%s' % library_dir) for library_dir in library_dirs]
         self.WriteList(ldflags, 'LDFLAGS_%s' % configname)
         if self.flavor == 'mac':
