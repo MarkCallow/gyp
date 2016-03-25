@@ -2,7 +2,7 @@ GYP can Generate Your Projects.
 ===================================
 
 This fork of the [upstream GIT repo](https://chromium.googlesource.com/external/gyp)
-at Google has 4 additional features:
+at Google has several additional features:
 
 1. The xcode generator recognizes the full set of build variables
 that correspond to the set of destination names for the copy phase,
@@ -31,16 +31,23 @@ plug-in for Visual Studio 2010. That is, it recognizes the properties
 properties can be included in an `msvs_settings` dictionary. Note this
 feature has only been tested with VS 2010. See branch `vs-tool_support`.
 
-    All GYP msvs tests are expected to still pass. That will be tested soon.
+    All GYP msvs and ninja tests pass on Windows with these changes.
     
 3. The make generator "sourceifys" source paths in `copies` that contain
 environment variables, e.g $(BUILDTYPE). Standard `gyp` only "sourceifys"
 paths without environment variables. The make generator also "sourceifys"
-paths specified in `library_dirs`. See branch `make_changes_copies`.
+paths specified in `library_dirs`. See branch `make_changes_copies` for
+the first and `crbug-512` for the second.
 
     All gyp make, ninja and cmake tests pass on Linux with these changes.
 
-4. Various changes to the `make` generator to better support generating
+4. Fixes for
+crbugs [512](https://bugs.chromium.org/p/gyp/issues/detail?id=512),
+crbugs [513](https://bugs.chromium.org/p/gyp/issues/detail?id=513) and
+crbugs [514](https://bugs.chromium.org/p/gyp/issues/detail?id=514).
+See branch `crbug-NNN`.
+
+5. Various changes to the `make` generator to better support generating
 projects to build Android native applications. These include additions
 to the `make_global_settings` dictionary such as being able to create
  _simply expanded variables_ and to specify a `TARGET_ABI`. The latter
@@ -51,7 +58,7 @@ to the `make_global_settings` dictionary such as being able to create
     These changes are a work in progress and are known to break several
     of the GYP `make` generator tests.
 
-Branch `master` contains 1, 2 & 3 as of this writing.
+Branch `master` contains 1, 2, 3 and 4 as of this writing.
 
 No. 1 has been submitted to Google complete with tests and is
 awaiting review.
@@ -61,7 +68,7 @@ No. 2 will not be submitted upstream as there are no plans for
 
 No. 3 may be submitted in future.
 
-No. 4 is not yet complete.
+No. 5 is not yet complete.
 
 GYP is a Python application requiring Python 2.7.
 
