@@ -33,13 +33,13 @@ feature has only been tested with VS 2010. See branch `vs-tool_support`.
 
     All GYP msvs and ninja tests pass on Windows with these changes.
     
-3. The make generator "sourceifys" source paths in `copies` that contain
-environment variables, e.g $(BUILDTYPE). Standard `gyp` only "sourceifys"
-paths without environment variables. The make generator also "sourceifys"
-paths specified in `library_dirs`. See branch `make_changes_copies` for
-the first and `crbug-512` for the second.
+3. The make generator relativizes source paths of `copies` that contain,
+but don't start with, environment variables, e.g $(BUILDTYPE). Standard
+GYP only relativizes paths not containing environment variables. The
+make generator also relativizes paths specified in `library_dirs`. See
+branch `make_changes_copies` for the first and `crbug-512` for the second.
 
-    All gyp make, ninja and cmake tests pass on Linux with these changes.
+    All GYP make, ninja and cmake tests pass on Linux with these changes.
 
 4. Fixes for
 crbugs [512](https://bugs.chromium.org/p/gyp/issues/detail?id=512),
@@ -47,18 +47,22 @@ crbugs [513](https://bugs.chromium.org/p/gyp/issues/detail?id=513) and
 crbugs [514](https://bugs.chromium.org/p/gyp/issues/detail?id=514).
 See branch `crbug-NNN`.
 
-5. Various changes to the `make` generator to better support generating
-projects to build Android native applications. These include additions
-to the `make_global_settings` dictionary such as being able to create
- _simply expanded variables_ and to specify a `TARGET_ABI`. The latter
- becomes a component of `builddir` in the generated make files. They
- also in include changes to the handling of path relativization in
- various cases. See branch `make_changes_all`.
+5. The `make` generator has various changes to to better support
+generating projects to build Android native applications. These
+include additions to the `make_global_settings` dictionary such as
+being able to create _simply expanded variables_ and to specify a
+`TARGET_ABI`. The latter becomes a component of `builddir` in the
+generated make files. It also in include changes to the handling of
+path relativization in various cases in addition to those no. 3.
+See branch `make_changes_all`.
  
     These changes are a work in progress and are known to break several
     of the GYP `make` generator tests.
 
-Branch `master` contains 1, 2, 3 and 4 as of this writing.
+Branch `remaster` contains 1, 2, 3 and 4 as of this writing.
+
+Branch `master` is identical with upstream/master, retained so `gclient`
+tools can be used to upload changes to GYP's Rietveld for review.
 
 No. 1 has been submitted to Google complete with tests and is
 awaiting review.
@@ -67,6 +71,8 @@ No. 2 will not be submitted upstream as there are no plans for
 `vs-tool` to support anything more modern than Visual Studio 2010.
 
 No. 3 may be submitted in future.
+
+No. 4 bug fixes been submitted to Google.
 
 No. 5 is not yet complete.
 
