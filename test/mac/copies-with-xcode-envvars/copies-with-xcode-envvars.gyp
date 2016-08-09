@@ -1,10 +1,9 @@
+# Copyright (c) 2016 Mark Callow. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 #
-# @internal
-# @copyright © 2016, Mark Callow. For license see LICENSE.md.
-#
-# @brief For testing use of the UI settings & environment variables
-#        available in Xcode's PBXCopyFilesBuildPhase.
-#
+# For testing use of the UI settings & environment variables
+# available in Xcode's PBXCopyFilesBuildPhase.
 {
 'targets': [
   {
