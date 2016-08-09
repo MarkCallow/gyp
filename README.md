@@ -43,10 +43,6 @@ Branch `remaster` contains 1, 2 and 3 as of this writing.
 Branch `master` is identical with upstream/master, retained so `gclient`
 tools can be used to upload changes to GYP's Rietveld for review.
 
-No. 1 has been submitted to Google complete with tests and ~~is
-awaiting review~~ has just been merged to master. Over the next
-few days, I will update this fork to the latest upstream code.
-
 No. 1 will not be submitted upstream as there are no plans for
 `vs-tool` to support anything more modern than Visual Studio 2010.
 
