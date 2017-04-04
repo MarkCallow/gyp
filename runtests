@@ -10,8 +10,6 @@
 # in this directory not the installed gyp so no need for something
 # like export PYTHONPATH=.:$PYTHONPATH.
 
-./gyptest.py -f "xcode" -a
-
 # These tests fail in both upstream_master and xcode_changes.
 # NOTE: test/ios/gyptest-extension.py requires an iOS code-signing identity,
 # so it fails, if you don't have one.
@@ -21,5 +19,6 @@
 #      test/mac/gyptest-ldflags-passed-to-libtool.py \
 #      test/mac/gyptest-swift-library.py
 
-./gyptest.py -f msvs -a
+# ./gyptest.py -f "msvs,make" -a  # Must be run on Windows
+./gyptest.py -f "xcode,make" -a   # Must be run on OS X.
 

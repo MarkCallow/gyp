@@ -970,6 +970,31 @@ _Moved(_link, 'LinkIncremental', '', _newly_boolean)
 _Moved(_link, 'LinkLibraryDependencies', 'ProjectReference', _boolean)
 _Moved(_link, 'UseLibraryDependencyInputs', 'ProjectReference', _boolean)
 
+# MSVS options for msvs_configuration_platform Emscripten (vs-tool)
+# XXX Need to find a non-intrusive way to make these only valid for
+# this platform.
+_Same(_link, 'EchoCommandLines', _boolean)
+_Same(_link, 'EmbedFile', _file_list)
+_Same(_link, 'IgnoreDynamicLinking', _boolean)
+_Same(_link, 'HTMLShellFile', _file_name)
+_Same(_link, 'JsLibrary', _file_list)
+_Same(_link, 'LinkerOptimizationLevel',
+      _Enumeration(['OptimizationNotSet',
+		            'O0',    # -O0
+                    'O1',    # -O1
+                    'O2',    # -O2
+                    'O3']))  # -O3
+_Same(_link, 'PreJsFile', _file_name)
+_Same(_link, 'PreloadFile', _file_name)
+_Same(_link, 'PostJsFile', _file_name)
+_Same(_link, 'RunClosureCompiler', _boolean)
+_Same(_link, 'RunMinify', _boolean)
+_Same(_link, 'TypedArrays',
+	  _Enumeration(['NotSet',
+		            'NoTypedArrays',		# --typed-arrays=0
+		            'ParallelTypedArrays',	# --typed-arrays=1
+					'SharedTypedArrays']))	# --typed-arrays=2
+
 # MSVS options not found in MSBuild.
 _MSVSOnly(_link, 'OptimizeForWindows98', _newly_boolean)
 _MSVSOnly(_link, 'UseUnicodeResponseFiles', _boolean)
