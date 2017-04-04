@@ -3511,7 +3511,9 @@ def _AddMSBuildAction(spec, primary_input, inputs, outputs, cmd, description,
       [['FileType', 'Document'],
        ['Command', command],
        ['Message', description],
-       ['Outputs', outputs]
+       ['Outputs', outputs],
+       # Prevent VS attempting to include in the link files named *.obj.
+       ['LinkObjects', 'false']
       ])
   if additional_inputs:
     action_spec.append(['AdditionalInputs', additional_inputs])
