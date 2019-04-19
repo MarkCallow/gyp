@@ -1,5 +1,5 @@
 GYP can Generate Your Projects.
-===================================
+===============================
 
 This fork of the [upstream GIT repo](https://chromium.googlesource.com/external/gyp)
 at Google has several additional features:
@@ -31,7 +31,9 @@ crbugs [513](https://bugs.chromium.org/p/gyp/issues/detail?id=513) and
 crbugs [514](https://bugs.chromium.org/p/gyp/issues/detail?id=514).
 See branch `crbug-NNN`.
 
-5. The `make` generator has various changes to to better support
+5. A fix for crbug [550](https://bugs.chromium.org/p/gyp/issues/detail?id=550) in the Xcode generator.
+
+6. The `make` generator has various changes to to better support
 generating projects to build Android native applications. These
 include additions to the `make_global_settings` dictionary such as
 being able to create _simply expanded variables_ and to specify a
@@ -43,7 +45,7 @@ See branch `make_changes_all`.
     These changes are a work in progress and are known to break several
     of the GYP `make` generator tests.
 
-Branch `remaster` contains 1, 2, 3 and 4 as of this writing.
+Branch `remaster` contains 1, 2, 3, 4 & 5 as of this writing.
 
 Branch `master` is identical with upstream/master, retained so `gclient`
 tools can be used to upload changes to GYP's Gerrit for review.
@@ -56,9 +58,11 @@ No. 2 will not be submitted upstream as there are no plans for
 
 No. 3 may be submitted in future.
 
-No. 4 bug fixes been submitted to Google.
+No. 4 bug fixes have been submitted to Google.
 
-No. 5 is not yet complete.
+No. 5 bug fix has been reported to Google and [PR #40](https://github.com/refack/GYP/pull/40) has been submitted to the GYP3 repo. on GitHub.
+
+No. 6 is not yet complete.
 
 The following feature originating from this fork has been merged
 into upstream's master and the master branch of this repo.
