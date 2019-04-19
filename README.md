@@ -75,7 +75,7 @@ for the changes.
 
 ### Installing GYP
 
-GYP is a Python application requiring Python 2.7.
+GYP is a Python application. It is compatible with Python 2.7 and Python 3. 3.7+ is recommended.
 
 To install, clone the repo to your machine and run the following
 commands in a shell:
@@ -96,13 +96,13 @@ python setup.py install
 Documents are available at [gyp.gsrc.io](https://gyp.gsrc.io), or you
 can check out the ```md-pages``` branch to read those documents offline.
 
-### Installing Python 2.7
+### Installing Python
 
 Visit the [Python Downloads](https://www.python.org/downloads/) page
 to learn how to install Python for your OS.
 
 On OS X you can use the Apple provided Python 2.7 which is in `/usr/bin`
-or you can install a slightly more recent version using the
+or you can install a more recent version using the
 [python.org](www.python.org) installer. If using the latter, and you want
 to run the GYP tests or generate Ninja format projects on a Mac, you must
 install [PyObjC](https://pythonhosted.org/pyobjc/),
