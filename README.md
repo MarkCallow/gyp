@@ -1,5 +1,5 @@
 GYP can Generate Your Projects.
-===================================
+===============================
 
 This fork of the [upstream GIT repo](https://chromium.googlesource.com/external/gyp)
 at Google has several additional features:
