@@ -648,7 +648,7 @@ def Sourceify(path):
 def Sourceify2(path):
   """Convert a path to its source directory form, provided it does not
   start with '$('.
-  
+
   Needed to support having variables like $(BUILDTYPE) in library_dirs
   paths. New function added so as not to break existing uses of Sourceify.
   """
