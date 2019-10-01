@@ -12,8 +12,8 @@ See branch `crbug-525`.
 2. The msvs generator supports Emscripten's [vs-tool](https://github.com/juj/vs-tool/)
 plug-in for Visual Studio 2010. That is, it recognizes the properties
 `vs-tool` offers to control the Emscripten compiler and linker. These
-properties can be included in an `msvs_settings` dictionary. Note this
-feature has only been tested with VS 2010. See branch `vs-tool_support`.
+properties can be included in an `msvs_settings` dictionary. Note `vs-tool`
+only supports VS 2010. See branch `vs-tool_support`.
 
     All GYP msvs and ninja tests pass on Windows with these changes.
     
@@ -41,11 +41,13 @@ being able to create _simply expanded variables_ and to specify a
 generated make files. It also in include changes to the handling of
 path relativization in various cases in addition to those no. 3.
 See branch `make_changes_all`.
- 
+
     These changes are a work in progress and are known to break several
     of the GYP `make` generator tests.
 
-Branch `remaster` contains 1, 2, 3, 4 & 5 as of this writing.
+7. Changes to support Visual Studio 2019. These have been imported from [PR #22](https://github.com/refack/GYP3/pull/22/commits/c5fd148b4870a98662f40c384a7bb83a2ba7538e) in @refacks [fork of GYP](https://github.com/refack/GYP3).
+
+Branch `remaster` contains 1, 2, 3, 4, 5 & 7 as of this writing.
 
 Branch `master` is identical with upstream/master, retained so `gclient`
 tools can be used to upload changes to GYP's Gerrit for review.
@@ -63,6 +65,8 @@ No. 4 bug fixes have been submitted to Google.
 No. 5 bug fix has been reported to Google and [PR #40](https://github.com/refack/GYP/pull/40) has been submitted to the GYP3 repo. on GitHub.
 
 No. 6 is not yet complete.
+
+No. 7 will not be submitted.
 
 The following feature originating from this fork has been merged
 into upstream's master and the master branch of this repo.
